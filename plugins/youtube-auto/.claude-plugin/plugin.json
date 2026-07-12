@@ -6,5 +6,5 @@
     "name": "julok35"
   },
   "skills": "./skills/",
-  "agents": "./agents/"
+  "agents": ["./agents/yta-synthese.md", "./agents/yta-pertinence.md"]
 }
