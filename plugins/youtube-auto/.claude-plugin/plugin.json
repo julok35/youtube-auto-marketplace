@@ -1,0 +1,10 @@
+{
+  "name": "youtube-auto",
+  "version": "2.0.0",
+  "description": "Pipeline automatisé YouTube : synthèse d'une vidéo à partir de son transcript (Sonnet) puis verdict de pertinence watch-or-skip (Opus).",
+  "author": {
+    "name": "julok35"
+  },
+  "skills": "./skills/",
+  "agents": ["./agents/yta-synthese.md", "./agents/yta-pertinence.md"]
+}
