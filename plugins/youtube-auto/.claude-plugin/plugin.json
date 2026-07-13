@@ -1,7 +1,7 @@
 {
   "name": "youtube-auto",
-  "version": "2.0.0",
-  "description": "Pipeline automatisé YouTube : synthèse d'une vidéo à partir de son transcript (Sonnet) puis verdict de pertinence watch-or-skip (Opus).",
+  "version": "2.1.0",
+  "description": "Pipeline automatisé YouTube : synthèse d'une vidéo à partir de son transcript (Sonnet), verdict de pertinence watch-or-skip (Opus), livraison Telegram et archivage Obsidian.",
   "author": {
     "name": "julok35"
   },

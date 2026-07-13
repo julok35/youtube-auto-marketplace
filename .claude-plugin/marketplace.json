@@ -7,7 +7,7 @@
     {
       "name": "youtube-auto",
       "source": "./plugins/youtube-auto",
-      "description": "Pipeline automatisé YouTube : synthèse d'une vidéo à partir de son transcript (Sonnet) puis verdict de pertinence watch-or-skip (Opus)."
+      "description": "Pipeline automatisé YouTube : synthèse d'une vidéo à partir de son transcript (Sonnet), verdict de pertinence watch-or-skip (Opus), livraison Telegram et archivage Obsidian."
     }
   ]
 }
