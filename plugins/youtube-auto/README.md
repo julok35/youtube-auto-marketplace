@@ -2,7 +2,7 @@
 
 Pipeline vidéo Cowork multi-modèle : fetch transcript (panneau natif YouTube,
 Chrome) → synthèse (subagent Sonnet 5) → pertinence (subagent Opus 4.8) →
-Telegram. Pensé pour Dispatch (async/aveugle).
+Telegram + archivage Obsidian. Pensé pour Dispatch (async/aveugle).
 
 ## Contenu
 
@@ -10,7 +10,9 @@ Telegram. Pensé pour Dispatch (async/aveugle).
 youtube-auto-plugin/
 ├── .claude-plugin/plugin.json     # manifeste
 ├── skills/youtube-auto/SKILL.md   # orchestrateur
-│   └── reference/payload-dispatch.md
+│   └── reference/
+│       ├── fetch-transcript.md    # procédure Chrome robuste (E1)
+│       └── payload-dispatch.md
 └── agents/
     ├── yta-synthese.md            # model: claude-sonnet-5
     └── yta-pertinence.md          # model: claude-opus-4-8
@@ -25,6 +27,11 @@ youtube-auto-plugin/
 - **MCP Telegram `NotifJulokHome`** — non bundlé volontairement (évite de mettre
   le token du bot dans le dossier plugin). Le plugin suppose le MCP présent dans
   la session.
+- **MCP Obsidian** — celui installé sur la machine d'exécution, quel que soit
+  son nom de serveur. Aucun chemin de vault en dur dans le plugin : seuls des
+  chemins relatifs au vault (`YouTube/…`) sont utilisés. MCP absent →
+  l'archivage `E3b`/`E3c` échoue proprement (non bloquant) et le reste du
+  pipeline tourne.
 
 ## Installer / développer
 
@@ -53,4 +60,14 @@ aujourd'hui reste le marketplace local via Claude Code.
 
 ## Versionnage
 
-2.0.0 — passage skill → plugin, split modèles (Sonnet synthèse / Opus pertinence).
+- 2.2.0 — archivage Obsidian via le MCP de la machine d'exécution (zéro chemin
+  en dur), mode batch/playlist avec digest Telegram trié par cote (cas nominal
+  mono-vidéo inchangé), index Obsidian auto-entretenu (E3c), « moments à
+  revoir » cliquables (`&t=<s>s`, horodatages conservés à l'E1).
+- 2.1.0 — archivage Obsidian systématique (E3b), procédure de fetch transcript
+  robuste (`reference/fetch-transcript.md`, lecture DOM one-shot), payload
+  Dispatch dé-dupliquée (la skill est l'unique source de vérité), assemblage
+  du verdict par bloc balisé (plus de régénération du document), dossier de
+  travail par run (`yta-<videoID>/`).
+- 2.0.0 — passage skill → plugin, split modèles (Sonnet synthèse / Opus
+  pertinence).
