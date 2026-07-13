@@ -14,6 +14,7 @@ d'agir évite de les produire.
 | Clics qui tombent dans le vide | Page pas prête : pub en cours, bandeau cookies, player pas chargé | Attendre l'état attendu et le **vérifier** avant chaque action (voir procédure) |
 | Bouton au mauvais libellé | UI en anglais vs français | Chercher les deux libellés : « Afficher la transcription » / « Show transcript », « …plus » / « …more » |
 | Panneau ouvert mais vide | Chargement en cours ou captions désactivées | Attendre 2 s, relire ; toujours vide → `E1: FAIL panneau vide` |
+| Tentation d'un `fetch` JS des captions (`captionTracks`) | Voie morte — YouTube renvoie un JSON vide (voir en bas) | Panneau natif + lecture DOM, rien d'autre |
 
 ## Procédure (ordre strict — vérifier l'état APRÈS chaque action, AVANT la suivante)
 
@@ -54,31 +55,15 @@ d'agir évite de les produire.
    partielle et relire le panneau **une seule fois**. Puis logguer :
    `E1: PASS <nb mots>` ou `E1: FAIL <maillon>`.
 
-## Option avancée (si l'exécution JavaScript est disponible dans Chrome)
+## Voie morte : extraction JS via `captionTracks` (ne pas retenter)
 
-Extraction one-shot sans aucun clic, depuis les données du player déjà
-présentes dans la page (même session, même IP — aucun outil tiers) :
-
-```js
-const track = ytInitialPlayerResponse?.captions
-  ?.playerCaptionsTracklistRenderer?.captionTracks?.[0];
-if (!track) throw "captions désactivées";
-const r = await fetch(track.baseUrl + "&fmt=json3");
-const j = await r.json();
-const mmss = ms => {
-  const s = Math.floor(ms / 1000);
-  return `[${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}]`;
-};
-const text = j.events
-  .filter(e => e.segs)
-  .map(e => mmss(e.tStartMs) + " " +
-    e.segs.map(s => s.utf8).join("").replace(/\n+/g, " ").trim())
-  .join("\n");
-```
-
-`captionTracks` liste toutes les langues ; préférer la piste non-ASR
-(`kind !== "asr"`) si disponible, sinon la première. En cas d'échec de cette
-option, basculer sur la procédure panneau ci-dessus — pas l'inverse d'un FAIL.
+L'ancienne « option avancée » — lire `ytInitialPlayerResponse.captions
+.playerCaptionsTracklistRenderer.captionTracks[0].baseUrl` puis
+`fetch(baseUrl + "&fmt=json3")` depuis la page — **ne fonctionne plus**
+(retex 2026-07) : YouTube répond un JSON vide aux requêtes timedtext émises
+hors du player, même depuis la session loggée. Ne pas la retenter, ne pas
+tâtonner sur des variantes (`fmt=srv3`, autre piste, POST…) : la seule voie
+d'extraction est le panneau natif + lecture DOM décrite ci-dessus.
 
 ## Maillons de FAIL
 

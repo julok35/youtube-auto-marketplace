@@ -62,9 +62,10 @@ sa sortie.
 
 ## Contraintes dures
 
-- **Extraction exclusivement via la session Chrome.** Source primaire : le
-  panneau natif « Transcription » de la page. Toléré : les données du player
-  déjà présentes dans la page (même session, même IP). **Interdit** : tout
+- **Extraction exclusivement via la session Chrome.** Source unique : le
+  panneau natif « Transcription » de la page, lu dans le DOM. L'extraction JS
+  one-shot via `captionTracks` est une **voie morte** (YouTube renvoie un JSON
+  vide — voir `reference/fetch-transcript.md`). **Interdit** : tout
   outil tiers (API de transcription hébergée, extension, service payant,
   Whisper), et tout fetch API/CLI depuis la VM (`youtube-transcript-api`,
   `yt-dlp`, requêtes directes → IP datacenter bloquée). Panneau inaccessible →
