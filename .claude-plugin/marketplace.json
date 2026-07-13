@@ -7,7 +7,7 @@
     {
       "name": "youtube-auto",
       "source": "./plugins/youtube-auto",
-      "version": "2.2.2",
+      "version": "2.3.0",
       "description": "Pipeline automatisé YouTube (mono ou batch) : synthèse à partir du transcript (Sonnet), verdict de pertinence watch-or-skip (Opus), moments à revoir cliquables, livraison Telegram, archivage et index Obsidian via MCP."
     }
   ]

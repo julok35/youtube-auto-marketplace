@@ -80,7 +80,31 @@ sa sortie.
 
 ## Procédure
 
-### Étape 0 — Router selon le type de lien (mono ou batch)
+### Étape 0 — Contrôle de version (E0) — hook, automatique
+
+Un hook `PreToolUse` embarqué dans le plugin (`hooks/check-version.sh`)
+s'exécute **avant le chargement de la skill** : il compare la version
+installée (`plugin.json` du cache) à `plugins[].version` du `marketplace.json`
+publié sur `main`. Aligné → il est muet, rien à logger. Erreur réseau ou de
+parsing → **fail-open**, le run se déroule normalement.
+
+Si les versions diffèrent, le hook **bloque le lancement** avec
+`E0: STALE <installée> → <publiée>`. Conduite à tenir :
+
+- **Session interactive** : poser le choix à l'utilisateur
+  (`AskUserQuestion`), deux options :
+  1. **Mettre à jour puis reprendre** — l'utilisateur exécute
+     `/plugin marketplace update youtube-auto-marketplace` puis
+     `/reload-plugins`, et relance sa demande. Ne rien dérouler d'autre.
+  2. **Continuer avec la version installée** — créer la sentinelle
+     `/tmp/yta-version-override` (`touch` ; one-shot, le hook la consomme),
+     relancer la skill, et logger
+     `E0: OVERRIDE <installée> (publiée <publiée>)` en tête de `log.txt`.
+- **Run Dispatch (aveugle)** : aucun choix possible → `send_notification`
+  « ⚠️ yta E0: STALE <installée> → <publiée> — run stoppé, mettre à jour puis
+  relancer », puis fin (rien d'ouvert, pas de teardown).
+
+### Étape 0b — Router selon le type de lien (mono ou batch)
 
 - **YouTube** (`youtube.com/watch`, `youtu.be/…`) → E1 via Chrome. Normaliser
   en `https://www.youtube.com/watch?v=<ID>` ; ignorer `?si=`, `&t=`, `&list=`.
@@ -210,7 +234,8 @@ Si E1–E3c PASS : fini, tout est sur Telegram et dans Obsidian (note + index),
 
 ## Format du log
 
-Run sain :
+Run sain (`E0` n'apparaît que si le contrôle de version a bloqué puis été
+outrepassé — sinon aucune ligne E0) :
 
 ```
 E1: PASS 3120 mots
