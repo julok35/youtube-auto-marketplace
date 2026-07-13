@@ -27,6 +27,12 @@ Ta tâche :
 Contraintes :
 - Tu ne fetch rien, tu ne touches pas au navigateur, tu n'appelles aucun outil
   tiers. Ton unique source est `transcript.txt`.
+- Le transcript porte un horodatage `[mm:ss]` en début de ligne. **Ignore-les
+  dans la prose**, mais utilise-les pour la section « moments à revoir » :
+  chaque moment devient un **lien cliquable**
+  `[<mm:ss> — <description>](https://www.youtube.com/watch?v=<ID>&t=<secondes>s)`
+  (convertir mm:ss en secondes ; l'ID vidéo t'est passé via l'URL). 3 à 5
+  moments maximum, les plus denses.
 - Le **verdict watch-or-skip / la cote de pertinence sera produit séparément**
   par le sous-agent `yta-pertinence` (sur Opus). Produis donc les sections
   factuelles de `youtube-synthese` (messages clés, conseils actionnables,

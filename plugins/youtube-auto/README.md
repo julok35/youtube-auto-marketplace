@@ -27,9 +27,11 @@ youtube-auto-plugin/
 - **MCP Telegram `NotifJulokHome`** — non bundlé volontairement (évite de mettre
   le token du bot dans le dossier plugin). Le plugin suppose le MCP présent dans
   la session.
-- **Vault Obsidian** — définir `VAULT_PATH` dans la section « Configuration »
-  de `SKILL.md` (dossier local du vault). Sans lui, l'archivage `E3b` échoue
-  proprement (non bloquant) et le reste du pipeline tourne.
+- **MCP Obsidian** — celui installé sur la machine d'exécution, quel que soit
+  son nom de serveur. Aucun chemin de vault en dur dans le plugin : seuls des
+  chemins relatifs au vault (`YouTube/…`) sont utilisés. MCP absent →
+  l'archivage `E3b`/`E3c` échoue proprement (non bloquant) et le reste du
+  pipeline tourne.
 
 ## Installer / développer
 
@@ -58,6 +60,10 @@ aujourd'hui reste le marketplace local via Claude Code.
 
 ## Versionnage
 
+- 2.2.0 — archivage Obsidian via le MCP de la machine d'exécution (zéro chemin
+  en dur), mode batch/playlist avec digest Telegram trié par cote (cas nominal
+  mono-vidéo inchangé), index Obsidian auto-entretenu (E3c), « moments à
+  revoir » cliquables (`&t=<s>s`, horodatages conservés à l'E1).
 - 2.1.0 — archivage Obsidian systématique (E3b), procédure de fetch transcript
   robuste (`reference/fetch-transcript.md`, lecture DOM one-shot), payload
   Dispatch dé-dupliquée (la skill est l'unique source de vérité), assemblage

@@ -2,11 +2,13 @@
 
 Marketplace Claude Code / Cowork dédié, contenant un plugin :
 
-- **youtube-auto** — pipeline vidéo de bout en bout : fetch du transcript via le
-  panneau natif YouTube (Chrome, aucun outil tiers), synthèse déléguée à un
-  subagent Sonnet 5, analyse de pertinence déléguée à un subagent Opus 4.8,
-  livraison Telegram et archivage systématique dans le vault Obsidian. Pensé
-  pour l'exécution asynchrone via Dispatch.
+- **youtube-auto** — pipeline vidéo de bout en bout (une vidéo, ou batch /
+  playlist avec digest trié par cote) : fetch du transcript via le panneau
+  natif YouTube (Chrome, aucun outil tiers), synthèse déléguée à un subagent
+  Sonnet 5 avec « moments à revoir » cliquables, analyse de pertinence
+  déléguée à un subagent Opus 4.8, livraison Telegram, archivage et index
+  auto-entretenu dans le vault Obsidian via son MCP. Pensé pour l'exécution
+  asynchrone via Dispatch.
 
 ## Installer
 

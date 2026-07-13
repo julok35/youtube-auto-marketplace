@@ -43,9 +43,12 @@ d'agir évite de les produire.
    Si — cas rare — l'extraction paraît s'arrêter net en plein milieu d'une
    phrase : scroller le panneau jusqu'en bas **une fois**, puis relire le DOM
    une fois. Pas de boucle.
-6. **Nettoyer et écrire** : retirer les horodatages, recoller les lignes en
-   phrases, paragrapher grossièrement → `RUN_DIR/transcript.txt`. Noter aussi
-   **titre** et **chaîne** (visibles sur la page) pour les étapes suivantes.
+6. **Nettoyer et écrire** : recoller les segments en lignes lisibles, mais
+   **conserver un horodatage `[mm:ss]` en début de chaque ligne** (celui du
+   premier segment de la ligne) — ils servent aux liens cliquables
+   `watch?v=<ID>&t=<s>s` des « moments à revoir » de la synthèse →
+   `RUN_DIR/transcript.txt`. Noter aussi **titre** et **chaîne** (visibles sur
+   la page) pour les étapes suivantes.
 7. **Contrôle qualité** : compter les mots. Une vidéo de plus de 3 minutes
    donne rarement moins de ~300 mots — en dessous, suspecter une extraction
    partielle et relire le panneau **une seule fois**. Puis logguer :
@@ -62,9 +65,15 @@ const track = ytInitialPlayerResponse?.captions
 if (!track) throw "captions désactivées";
 const r = await fetch(track.baseUrl + "&fmt=json3");
 const j = await r.json();
+const mmss = ms => {
+  const s = Math.floor(ms / 1000);
+  return `[${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}]`;
+};
 const text = j.events
-  .flatMap(e => (e.segs || []).map(s => s.utf8))
-  .join("").replace(/\n+/g, " ").trim();
+  .filter(e => e.segs)
+  .map(e => mmss(e.tStartMs) + " " +
+    e.segs.map(s => s.utf8).join("").replace(/\n+/g, " ").trim())
+  .join("\n");
 ```
 
 `captionTracks` liste toutes les langues ; préférer la piste non-ASR
