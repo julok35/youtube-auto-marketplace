@@ -65,6 +65,9 @@ Semver bumpé à chaque push, en miroir dans `plugin.json` et dans
 clients). Contrôle de vérité post-update : `diff -rq` entre le cache local et
 le dépôt — voir le README racine.
 
+- 2.2.2 — retrait de l'option JS `captionTracks` (retex : YouTube renvoie un
+  JSON vide) ; le panneau natif + lecture DOM est l'unique voie d'extraction,
+  la voie morte est documentée pour ne pas être retentée.
 - 2.2.1 — semver porté par `marketplace.json` (`plugins[].version`),
   procédure d'auto-update et contrôle de vérité `diff -rq` documentés,
   règles de release dans `CLAUDE.md`.
