@@ -13,6 +13,9 @@ youtube-auto-plugin/
 │   └── reference/
 │       ├── fetch-transcript.md    # procédure Chrome robuste (E1)
 │       └── payload-dispatch.md
+├── hooks/
+│   ├── hooks.json                 # PreToolUse(Skill)
+│   └── check-version.sh           # contrôle de version E0 (bloquant si stale)
 └── agents/
     ├── yta-synthese.md            # model: claude-sonnet-5
     └── yta-pertinence.md          # model: claude-opus-4-8
@@ -32,6 +35,9 @@ youtube-auto-plugin/
   chemins relatifs au vault (`YouTube/…`) sont utilisés. MCP absent →
   l'archivage `E3b`/`E3c` échoue proprement (non bloquant) et le reste du
   pipeline tourne.
+- **`curl` + `python3`** sur la machine d'exécution — utilisés par le hook de
+  contrôle de version (E0). Absents → le hook est fail-open, le run se déroule
+  sans contrôle.
 
 ## Installer / développer
 
@@ -65,6 +71,11 @@ Semver bumpé à chaque push, en miroir dans `plugin.json` et dans
 clients). Contrôle de vérité post-update : `diff -rq` entre le cache local et
 le dépôt — voir le README racine.
 
+- 2.3.0 — contrôle de version au lancement (E0) : hook `PreToolUse` bloquant
+  si la version installée diffère de celle publiée sur `main` ; en interactif,
+  choix utilisateur « mettre à jour puis reprendre » ou « continuer »
+  (sentinelle one-shot `/tmp/yta-version-override`) ; en Dispatch, notif
+  Telegram + stop. Fail-open sur erreur réseau/parsing.
 - 2.2.2 — retrait de l'option JS `captionTracks` (retex : YouTube renvoie un
   JSON vide) ; le panneau natif + lecture DOM est l'unique voie d'extraction,
   la voie morte est documentée pour ne pas être retentée.
