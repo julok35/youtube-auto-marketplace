@@ -60,6 +60,14 @@ aujourd'hui reste le marketplace local via Claude Code.
 
 ## Versionnage
 
+Semver bumpé à chaque push, en miroir dans `plugin.json` et dans
+`plugins[].version` du `marketplace.json` (ce dernier déclenche l'update
+clients). Contrôle de vérité post-update : `diff -rq` entre le cache local et
+le dépôt — voir le README racine.
+
+- 2.2.1 — semver porté par `marketplace.json` (`plugins[].version`),
+  procédure d'auto-update et contrôle de vérité `diff -rq` documentés,
+  règles de release dans `CLAUDE.md`.
 - 2.2.0 — archivage Obsidian via le MCP de la machine d'exécution (zéro chemin
   en dur), mode batch/playlist avec digest Telegram trié par cote (cas nominal
   mono-vidéo inchangé), index Obsidian auto-entretenu (E3c), « moments à

@@ -1,6 +1,6 @@
 {
   "name": "youtube-auto",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Pipeline automatisé YouTube (mono ou batch) : synthèse à partir du transcript (Sonnet), verdict de pertinence watch-or-skip (Opus), moments à revoir cliquables, livraison Telegram, archivage et index Obsidian via MCP.",
   "author": {
     "name": "julok35"
